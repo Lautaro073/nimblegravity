@@ -1,10 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useCandidate } from '@/hooks/useCandidate';
 import { useJobs } from '@/hooks/useJobs';
-import { Loader2, Briefcase } from 'lucide-react';
+import { Briefcase } from 'lucide-react';
 import { JobItem } from './JobItem';
+import { ErrorMessage } from './ErrorMessage';
+import { LoadingSpinner } from './LoadingSpinner';
 
 export function JobsList() {
     const { isAuthenticated } = useCandidate();
@@ -19,18 +20,14 @@ export function JobsList() {
         return (
             <Card>
                 <CardContent className="flex items-center justify-center py-12">
-                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    <LoadingSpinner />
                 </CardContent>
             </Card>
         );
     }
 
     if (error) {
-        return (
-            <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
-            </Alert>
-        );
+        return <ErrorMessage message={error} />;
     }
 
     if (isEmpty) {

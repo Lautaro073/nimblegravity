@@ -43,13 +43,11 @@ export const getCandidateByEmail = async (email: string): Promise<Candidate> => 
     return data;
   } catch (error) {
     if (error instanceof ApiError) {
-      console.error('❌ Error al obtener candidato:', error.message);
       if (error.status === 404) {
         throw new Error(i18n.t('errors.emailNotFound'));
       }
       throw error;
     }
-    console.error('❌ Error de red:', error);
     throw new Error(i18n.t('errors.networkCandidate'));
   }
 };
@@ -63,10 +61,8 @@ export const getJobsList = async (): Promise<Job[]> => {
     return data;
   } catch (error) {
     if (error instanceof ApiError) {
-      console.error('❌ Error al obtener posiciones:', error.message);
       throw error;
     }
-    console.error('❌ Error de red:', error);
     throw new Error(i18n.t('errors.networkJobs'));
   }
 };
@@ -86,13 +82,11 @@ export const applyToJob = async (application: JobApplication): Promise<{ ok: boo
     return data;
   } catch (error) {
     if (error instanceof ApiError) {
-      console.error('❌ Error al enviar aplicación:', error.message);
       if (error.status === 400) {
         throw new Error(i18n.t('errors.invalidData'));
       }
       throw error;
     }
-    console.error('❌ Error de red:', error);
     throw new Error(i18n.t('errors.networkApply'));
   }
 };

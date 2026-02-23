@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { ErrorMessage } from '@/components/ErrorMessage';
 import { useCandidateData } from '@/hooks/useCandidateData';
 import { Loader2, Mail, CheckCircle2 } from 'lucide-react';
 
@@ -85,11 +85,7 @@ export function CandidateForm() {
                         </div>
                     </div>
 
-                    {error && (
-                        <Alert variant="destructive">
-                            <AlertDescription>{error}</AlertDescription>
-                        </Alert>
-                    )}
+                    {error && <ErrorMessage message={error} />}
 
                     <Button type="submit" disabled={loading} className="w-full">
                         {loading ? (

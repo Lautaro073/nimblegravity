@@ -21,6 +21,7 @@ export function FloatingButtons() {
                         variant="outline"
                         size="icon"
                         onClick={toggleTheme}
+                        aria-label={isDark ? t('theme.light') : t('theme.dark')}
                         className="h-12 w-12 rounded-full shadow-lg bg-card border-border hover:bg-accent"
                     >
                         {isDark ? (
@@ -41,6 +42,7 @@ export function FloatingButtons() {
                         variant="outline"
                         size="icon"
                         onClick={toggleLanguage}
+                        aria-label={i18n.language === 'es' ? t('language.es') : t('language.en')}
                         className="h-12 w-12 rounded-full shadow-lg bg-card border-border hover:bg-accent"
                     >
                         <Languages className="h-5 w-5" />

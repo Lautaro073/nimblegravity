@@ -44,10 +44,19 @@ export default {
         applyGeneric: 'Error al enviar la postulación',
         repoEmpty: 'Por favor ingresa la URL de tu repositorio',
         repoInvalid: 'Ingresa una URL válida de GitHub (ej: https://github.com/usuario/repo)',
+        emailEmpty: 'Por favor ingresa tu email',
+        emailInvalid: 'Por favor ingresa un email válido',
+        candidateGeneric: 'Error al obtener los datos del candidato',
+        unexpected: 'Ha ocurrido un error inesperado',
     },
     theme: {
         light: 'Cambiar a modo claro',
         dark: 'Cambiar a modo oscuro',
+    },
+    errorBoundary: {
+        title: 'Algo salió mal',
+        message: 'Ha ocurrido un error inesperado en la aplicación.',
+        retry: 'Intentar de nuevo',
     },
     language: {
         es: 'Cambiar a Inglés',

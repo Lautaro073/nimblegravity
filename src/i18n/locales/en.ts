@@ -44,10 +44,19 @@ export default {
         applyGeneric: 'Error submitting application',
         repoEmpty: 'Please enter your repository URL',
         repoInvalid: 'Enter a valid GitHub URL (e.g. https://github.com/user/repo)',
+        emailEmpty: 'Please enter your email',
+        emailInvalid: 'Please enter a valid email',
+        candidateGeneric: 'Error fetching candidate data',
+        unexpected: 'An unexpected error occurred',
     },
     theme: {
         light: 'Switch to light mode',
         dark: 'Switch to dark mode',
+    },
+    errorBoundary: {
+        title: 'Something went wrong',
+        message: 'An unexpected error occurred in the application.',
+        retry: 'Try again',
     },
     language: {
         es: 'Cambiar a Inglés',

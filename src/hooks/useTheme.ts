@@ -4,8 +4,12 @@ type Theme = 'light' | 'dark';
 
 export function useTheme() {
     const [theme, setTheme] = useState<Theme>(() => {
-        const saved = localStorage.getItem('theme') as Theme | null;
-        if (saved) return saved;
+        try {
+            const saved = localStorage.getItem('theme') as Theme | null;
+            if (saved) return saved;
+        } catch {
+            // localStorage not available
+        }
         return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     });
 
@@ -16,7 +20,11 @@ export function useTheme() {
         } else {
             root.classList.remove('dark');
         }
-        localStorage.setItem('theme', theme);
+        try {
+            localStorage.setItem('theme', theme);
+        } catch {
+            // localStorage not available
+        }
     }, [theme]);
 
     const toggleTheme = () => setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));

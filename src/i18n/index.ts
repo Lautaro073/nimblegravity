@@ -3,7 +3,12 @@ import { initReactI18next } from 'react-i18next';
 import es from './locales/es';
 import en from './locales/en';
 
-const savedLanguage = localStorage.getItem('language') || 'es';
+let savedLanguage = 'es';
+try {
+    savedLanguage = localStorage.getItem('language') || 'es';
+} catch {
+    // localStorage not available
+}
 
 i18n.use(initReactI18next).init({
     resources: {
@@ -18,7 +23,11 @@ i18n.use(initReactI18next).init({
 });
 
 i18n.on('languageChanged', (lng) => {
-    localStorage.setItem('language', lng);
+    try {
+        localStorage.setItem('language', lng);
+    } catch {
+        // localStorage not available
+    }
 });
 
 export default i18n;

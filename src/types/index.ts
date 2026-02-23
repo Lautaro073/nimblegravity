@@ -20,13 +20,4 @@ export interface JobApplication {
   repoUrl: string;
 }
 
-export interface ApiResponse<T> {
-  data?: T;
-  error?: string;
-  ok?: boolean;
-}
 
-export interface ApiError {
-  message: string;
-  status?: number;
-}
