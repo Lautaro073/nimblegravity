@@ -77,6 +77,9 @@ npm run build
 # Preview del build
 npm run preview
 ```
+## Deploy
+
+🔗 [nimblegravity.vercel.app](https://nimblegravity.vercel.app/)
 
 ## Autor
 
