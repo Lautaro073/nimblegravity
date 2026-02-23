@@ -1,73 +1,83 @@
-# React + TypeScript + Vite
+# NimbleGravity — Prueba Técnica
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para postularse a posiciones de trabajo. Permite identificarse como candidato mediante email, visualizar las posiciones disponibles y enviar una postulación con la URL de un repositorio de GitHub.
 
-Currently, two official plugins are available:
+## Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![preview](https://img.shields.io/badge/status-funcional-brightgreen)
 
-## React Compiler
+## Stack
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- **React 19** + **TypeScript**
+- **Vite** con SWC
+- **Tailwind CSS v4**
+- **shadcn/ui** (Button, Card, Input, Alert, Badge, Tooltip)
+- **react-i18next** (ES / EN)
+- **Radix UI** primitives
+- **lucide-react** para íconos
 
-## Expanding the ESLint configuration
+## Funcionalidades
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- 🔍 Búsqueda de candidato por email
+- 📋 Listado de posiciones disponibles desde la API
+- 📤 Envío de postulación con URL de repositorio de GitHub
+- 🌙 Dark mode (persiste en localStorage)
+- 🌐 Internacionalización español / inglés
+- ✅ Validación de URLs de GitHub
+- 💬 Tooltips en botones e íconos
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Estructura del proyecto
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src/
+├── components/
+│   ├── ui/              # Componentes base (shadcn/ui)
+│   ├── CandidateForm    # Formulario de identificación
+│   ├── JobsList         # Lista de posiciones
+│   ├── JobItem          # Card de cada posición
+│   └── FloatingButtons  # Dark mode + idioma
+├── hooks/
+│   ├── useCandidateData # Lógica de fetch del candidato
+│   ├── useCandidate     # Consumer del contexto
+│   ├── useJobs          # Fetch de posiciones
+│   ├── useJobApplication# Envío de postulación
+│   └── useTheme         # Toggle dark/light mode
+├── context/             # CandidateContext (React Context)
+├── services/api.ts      # Servicio HTTP centralizado
+├── i18n/                # Configuración i18next + locales
+├── lib/                 # Utilidades, validadores, constantes
+└── types/               # Interfaces TypeScript
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## API
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Base URL: `https://botfilter-h5ddh6dye8exb7ha.centralus-01.azurewebsites.net`
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/candidate/get-by-email?email=` | Obtener datos del candidato |
+| GET | `/api/jobs/get-list` | Listar posiciones disponibles |
+| POST | `/api/candidate/apply-to-job` | Enviar postulación |
+
+## Setup
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/Lautaro073/nimblegravity.git
+
+# Instalar dependencias
+npm install
+
+# Iniciar en desarrollo
+npm run dev
+
+# Build de producción
+npm run build
+
+# Preview del build
+npm run preview
 ```
+
+## Autor
+
+Lautaro Jimenez — [lautarojimenez02@gmail.com](mailto:lautarojimenez02@gmail.com)
