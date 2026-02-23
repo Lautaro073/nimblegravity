@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { applyToJob } from '@/services/api';
 import { validateGithubUrl } from '@/lib/validators';
 import type { JobApplication } from '@/types';
@@ -7,19 +8,19 @@ export function useJobApplication() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const { t } = useTranslation();
 
   const apply = async (application: JobApplication) => {
     setError(null);
     setSuccess(false);
 
-    // Validar URL de GitHub
     if (!application.repoUrl.trim()) {
-      setError('Por favor ingresa la URL de tu repositorio');
+      setError(t('errors.repoEmpty'));
       return false;
     }
 
     if (!validateGithubUrl(application.repoUrl)) {
-      setError('Por favor ingresa una URL válida de GitHub (ej: https://github.com/usuario/repo)');
+      setError(t('errors.repoInvalid'));
       return false;
     }
 
@@ -30,7 +31,7 @@ export function useJobApplication() {
       setSuccess(true);
       return true;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Error al enviar la postulación';
+      const errorMessage = err instanceof Error ? err.message : t('errors.applyGeneric');
       setError(errorMessage);
       return false;
     } finally {

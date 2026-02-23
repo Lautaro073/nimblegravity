@@ -1,3 +1,4 @@
+import i18n from '@/i18n';
 import { API_BASE_URL, API_ENDPOINTS } from '../lib/constants';
 import type { Candidate, Job, JobApplication } from '../types';
 
@@ -19,13 +20,12 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
       const errorData = await response.json();
       errorMessage = errorData.message || errorData.error || errorMessage;
     } catch {
-      // Si no se puede parsear el JSON, usar mensaje por defecto
       if (response.status === 404) {
-        errorMessage = 'Recurso no encontrado';
+        errorMessage = i18n.t('errors.notFound');
       } else if (response.status === 500) {
-        errorMessage = 'Error del servidor. Intenta de nuevo más tarde';
+        errorMessage = i18n.t('errors.serverError');
       } else if (response.status === 400) {
-        errorMessage = 'Solicitud inválida. Verifica los datos ingresados';
+        errorMessage = i18n.t('errors.invalidRequest');
       }
     }
     
@@ -40,18 +40,17 @@ export const getCandidateByEmail = async (email: string): Promise<Candidate> => 
   try {
     const response = await fetch(url);
     const data = await handleResponse<Candidate>(response);
-    console.log('✅ Candidato obtenido:', data.email);
     return data;
   } catch (error) {
     if (error instanceof ApiError) {
       console.error('❌ Error al obtener candidato:', error.message);
       if (error.status === 404) {
-        throw new Error('Email no encontrado. Verifica que sea correcto.');
+        throw new Error(i18n.t('errors.emailNotFound'));
       }
       throw error;
     }
     console.error('❌ Error de red:', error);
-    throw new Error('No se pudo conectar con el servidor. Verifica tu conexión.');
+    throw new Error(i18n.t('errors.networkCandidate'));
   }
 };
 
@@ -61,7 +60,6 @@ export const getJobsList = async (): Promise<Job[]> => {
   try {
     const response = await fetch(url);
     const data = await handleResponse<Job[]>(response);
-    console.log(`✅ ${data.length} posiciones obtenidas`);
     return data;
   } catch (error) {
     if (error instanceof ApiError) {
@@ -69,7 +67,7 @@ export const getJobsList = async (): Promise<Job[]> => {
       throw error;
     }
     console.error('❌ Error de red:', error);
-    throw new Error('No se pudo obtener la lista de posiciones.');
+    throw new Error(i18n.t('errors.networkJobs'));
   }
 };
 
@@ -77,7 +75,6 @@ export const applyToJob = async (application: JobApplication): Promise<{ ok: boo
   const url = `${API_BASE_URL}${API_ENDPOINTS.APPLY_TO_JOB}`;
   
   try {
-    console.log('📤 Enviando aplicación:', { jobId: application.jobId, repoUrl: application.repoUrl });
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -86,17 +83,16 @@ export const applyToJob = async (application: JobApplication): Promise<{ ok: boo
       body: JSON.stringify(application),
     });
     const data = await handleResponse<{ ok: boolean }>(response);
-    console.log('✅ Aplicación enviada exitosamente');
     return data;
   } catch (error) {
     if (error instanceof ApiError) {
       console.error('❌ Error al enviar aplicación:', error.message);
       if (error.status === 400) {
-        throw new Error('Datos inválidos. Verifica la URL del repositorio.');
+        throw new Error(i18n.t('errors.invalidData'));
       }
       throw error;
     }
     console.error('❌ Error de red:', error);
-    throw new Error('No se pudo enviar la postulación.');
+    throw new Error(i18n.t('errors.networkApply'));
   }
 };
