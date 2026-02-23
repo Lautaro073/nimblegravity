@@ -10,10 +10,10 @@ function App() {
         <div className="max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-2">
             <h1 className="text-4xl font-bold tracking-tight">
-             Aplicación a Posiciones
+              Postulación a Posiciones
             </h1>
             <p className="text-lg text-muted-foreground">
-              Challenge técnico para aplicar a posiciones disponibles
+              Prueba técnica — Selecciona una posición y envía tu repositorio
             </p>
           </div>
 

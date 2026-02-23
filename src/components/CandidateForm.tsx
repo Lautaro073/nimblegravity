@@ -22,10 +22,10 @@ export function CandidateForm() {
                 <CardHeader>
                     <div className="flex items-center gap-2">
                         <CheckCircle2 className="h-5 w-5 text-green-600" />
-                        <CardTitle className="text-green-900">Datos de Candidato</CardTitle>
+                        <CardTitle className="text-green-900">Datos del Candidato</CardTitle>
                     </div>
                     <CardDescription>
-                        Datos del candidato:
+                        Candidato identificado correctamente
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
@@ -54,9 +54,9 @@ export function CandidateForm() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Ingresa tu Email</CardTitle>
+                <CardTitle>Identificación del Candidato</CardTitle>
                 <CardDescription>
-                    Ingresa el email para obtener tus datos de candidato
+                    Ingresa tu email para obtener tus datos y ver las posiciones disponibles
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -89,7 +89,7 @@ export function CandidateForm() {
                                 Verificando...
                             </>
                         ) : (
-                            'Obtener mis datos'
+                            'Buscar mis datos'
                         )}
                     </Button>
                 </form>

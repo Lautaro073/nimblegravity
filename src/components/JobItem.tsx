@@ -47,11 +47,11 @@ export function JobItem({ job }: JobItemProps) {
                             <CardTitle className="text-green-900">{job.title}</CardTitle>
                         </div>
                         <Badge variant="secondary" className="bg-green-100 text-green-800">
-                            Aplicación enviada
+                            Postulación enviada
                         </Badge>
                     </div>
                     <CardDescription className="text-green-700">
-                        ¡Aplicación enviada con éxito!
+                        ¡Postulación enviada con éxito!
                     </CardDescription>
                 </CardHeader>
             </Card>
@@ -87,9 +87,6 @@ export function JobItem({ job }: JobItemProps) {
                                 className="pl-9"
                             />
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            Ingresa la URL completa de tu repositorio de GitHub con el código de este proyecto
-                        </p>
                     </div>
 
                     {error && (
@@ -106,7 +103,7 @@ export function JobItem({ job }: JobItemProps) {
                                     Enviando...
                                 </>
                             ) : (
-                                'Submit Application'
+                                'Enviar Postulación'
                             )}
                         </Button>
                         {repoUrl && validateGithubUrl(repoUrl) && (
