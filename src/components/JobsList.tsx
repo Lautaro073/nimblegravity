@@ -1,39 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { getJobsList } from '@/services/api';
-import { useCandidate } from '@/context/CandidateContext';
-import type { Job } from '@/types';
+import { useCandidate } from '@/hooks/useCandidate';
+import { useJobs } from '@/hooks/useJobs';
 import { Loader2, Briefcase } from 'lucide-react';
 import { JobItem } from './JobItem';
 
 export function JobsList() {
-    const [jobs, setJobs] = useState<Job[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
     const { isAuthenticated } = useCandidate();
-
-    useEffect(() => {
-        const fetchJobs = async () => {
-            try {
-                setLoading(true);
-                const jobsData = await getJobsList();
-                setJobs(jobsData);
-            } catch (err) {
-                if (err instanceof Error) {
-                    setError(err.message);
-                } else {
-                    setError('Error al cargar las posiciones');
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (isAuthenticated) {
-            fetchJobs();
-        }
-    }, [isAuthenticated]);
+    const { jobs, loading, error, isEmpty } = useJobs(isAuthenticated);
 
     if (!isAuthenticated) {
         return null;
@@ -57,7 +31,7 @@ export function JobsList() {
         );
     }
 
-    if (jobs.length === 0) {
+    if (isEmpty) {
         return (
             <Card>
                 <CardContent className="py-12 text-center text-muted-foreground">

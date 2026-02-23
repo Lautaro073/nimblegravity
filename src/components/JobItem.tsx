@@ -4,9 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
-import { applyToJob } from '@/services/api';
 import { validateGithubUrl } from '@/lib/validators';
-import { useCandidate } from '@/context/CandidateContext';
+import { useCandidate } from '@/hooks/useCandidate';
+import { useJobApplication } from '@/hooks/useJobApplication';
 import type { Job } from '@/types';
 import { Loader2, Github, CheckCircle2, ExternalLink } from 'lucide-react';
 
@@ -16,50 +16,23 @@ interface JobItemProps {
 
 export function JobItem({ job }: JobItemProps) {
     const [repoUrl, setRepoUrl] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [success, setSuccess] = useState(false);
     const { candidate } = useCandidate();
+    const { loading, error, success, apply } = useJobApplication();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
 
-        // Validaciones
-        if (!repoUrl.trim()) {
-            setError('Por favor ingresa la URL de tu repositorio');
-            return;
-        }
+        if (!candidate) return;
 
-        if (!validateGithubUrl(repoUrl)) {
-            setError('Por favor ingresa una URL válida de GitHub (ej: https://github.com/usuario/repo)');
-            return;
-        }
+        const applied = await apply({
+            uuid: candidate.uuid,
+            jobId: job.id,
+            candidateId: candidate.candidateId,
+            repoUrl: repoUrl.trim(),
+        });
 
-        if (!candidate) {
-            setError('No hay datos de candidato disponibles');
-            return;
-        }
-
-        setLoading(true);
-
-        try {
-            await applyToJob({
-                uuid: candidate.uuid,
-                jobId: job.id,
-                candidateId: candidate.candidateId,
-                repoUrl: repoUrl.trim(),
-            });
-            setSuccess(true);
+        if (applied) {
             setRepoUrl('');
-        } catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError('Error al enviar la postulación');
-            }
-        } finally {
-            setLoading(false);
         }
     };
 

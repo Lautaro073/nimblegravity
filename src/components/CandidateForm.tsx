@@ -3,46 +3,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { getCandidateByEmail } from '@/services/api';
-import { validateEmail } from '@/lib/validators';
-import { useCandidate } from '@/context/CandidateContext';
+import { useCandidateData } from '@/hooks/useCandidateData';
 import { Loader2, Mail, CheckCircle2 } from 'lucide-react';
 
 export function CandidateForm() {
     const [email, setEmail] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const { candidate, setCandidate } = useCandidate();
+    const { candidate, loading, error, fetchCandidate, clearCandidate } = useCandidateData();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError(null);
-
-        // Validar email
-        if (!email.trim()) {
-            setError('Por favor ingresa tu email');
-            return;
-        }
-
-        if (!validateEmail(email)) {
-            setError('Por favor ingresa un email válido');
-            return;
-        }
-
-        setLoading(true);
-
-        try {
-            const candidateData = await getCandidateByEmail(email);
-            setCandidate(candidateData);
-        } catch (err) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError('Error al obtener los datos del candidato');
-            }
-        } finally {
-            setLoading(false);
-        }
+        await fetchCandidate(email);
     };
 
     // Si ya hay un candidato autenticado, mostrar sus datos
@@ -71,7 +41,7 @@ export function CandidateForm() {
                     <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => setCandidate(null)}
+                        onClick={clearCandidate}
                         className="mt-4"
                     >
                         Cambiar candidato

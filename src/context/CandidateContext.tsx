@@ -1,13 +1,7 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { useState } from 'react';
+import type { ReactNode } from 'react';
 import type { Candidate } from '@/types';
-
-interface CandidateContextType {
-    candidate: Candidate | null;
-    setCandidate: (candidate: Candidate | null) => void;
-    isAuthenticated: boolean;
-}
-
-const CandidateContext = createContext<CandidateContextType | undefined>(undefined);
+import { CandidateContext } from './candidateContextDef';
 
 export function CandidateProvider({ children }: { children: ReactNode }) {
     const [candidate, setCandidate] = useState<Candidate | null>(null);
@@ -23,12 +17,4 @@ export function CandidateProvider({ children }: { children: ReactNode }) {
             {children}
         </CandidateContext.Provider>
     );
-}
-
-export function useCandidate() {
-    const context = useContext(CandidateContext);
-    if (context === undefined) {
-        throw new Error('useCandidate debe ser usado dentro de un CandidateProvider');
-    }
-    return context;
 }

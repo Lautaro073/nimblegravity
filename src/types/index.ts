@@ -1,4 +1,3 @@
-// Candidate Types
 export interface Candidate {
   uuid: string;
   candidateId: string;
@@ -8,13 +7,11 @@ export interface Candidate {
   email: string;
 }
 
-// Job Types
 export interface Job {
   id: string;
   title: string;
 }
 
-// Job Application Types
 export interface JobApplication {
   uuid: string;
   jobId: string;
@@ -22,7 +19,6 @@ export interface JobApplication {
   repoUrl: string;
 }
 
-// API Response Types
 export interface ApiResponse<T> {
   data?: T;
   error?: string;
