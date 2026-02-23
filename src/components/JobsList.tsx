@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useCandidate } from '@/hooks/useCandidate';
@@ -8,6 +9,7 @@ import { JobItem } from './JobItem';
 export function JobsList() {
     const { isAuthenticated } = useCandidate();
     const { jobs, loading, error, isEmpty } = useJobs(isAuthenticated);
+    const { t } = useTranslation();
 
     if (!isAuthenticated) {
         return null;
@@ -36,7 +38,7 @@ export function JobsList() {
             <Card>
                 <CardContent className="py-12 text-center text-muted-foreground">
                     <Briefcase className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                    <p>No hay posiciones disponibles en este momento</p>
+                    <p>{t('jobs.empty')}</p>
                 </CardContent>
             </Card>
         );
@@ -45,9 +47,9 @@ export function JobsList() {
     return (
         <div className="space-y-4">
             <div className="text-center">
-                <h2 className="text-2xl font-bold">Posiciones Disponibles</h2>
+                <h2 className="text-2xl font-bold">{t('jobs.title')}</h2>
                 <p className="text-muted-foreground">
-                    {jobs.length} {jobs.length === 1 ? 'posición disponible' : 'posiciones disponibles'}
+                    {t('jobs.count', { count: jobs.length })}
                 </p>
             </div>
 

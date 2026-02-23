@@ -1,27 +1,37 @@
 import './App.css'
+import '@/i18n'
+import { useTranslation } from 'react-i18next'
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { CandidateProvider } from '@/context/CandidateContext'
 import { CandidateForm } from '@/components/CandidateForm'
 import { JobsList } from '@/components/JobsList'
+import { FloatingButtons } from '@/components/FloatingButtons'
 
 function App() {
-  return (
-    <CandidateProvider>
-      <div className="min-h-screen bg-background p-4 md:p-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <h1 className="text-4xl font-bold tracking-tight">
-              Postulación a Posiciones
-            </h1>
-            <p className="text-lg text-muted-foreground">
-              Prueba técnica — Selecciona una posición y envía tu repositorio
-            </p>
-          </div>
+  const { t } = useTranslation()
 
-          <CandidateForm />
-          <JobsList />
+  return (
+    <TooltipProvider delayDuration={300}>
+      <CandidateProvider>
+        <div className="min-h-screen bg-background p-4 md:p-8">
+          <div className="max-w-4xl mx-auto space-y-8">
+            <div className="text-center space-y-2">
+              <h1 className="text-4xl font-bold tracking-tight">
+                {t('app.title')}
+              </h1>
+              <p className="text-lg text-muted-foreground">
+                {t('app.subtitle')}
+              </p>
+            </div>
+
+            <CandidateForm />
+            <JobsList />
+          </div>
         </div>
-      </div>
-    </CandidateProvider>
+
+        <FloatingButtons />
+      </CandidateProvider>
+    </TooltipProvider>
   )
 }
 

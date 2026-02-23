@@ -1,51 +1,60 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { useCandidateData } from '@/hooks/useCandidateData';
 import { Loader2, Mail, CheckCircle2 } from 'lucide-react';
 
 export function CandidateForm() {
     const [email, setEmail] = useState('');
     const { candidate, loading, error, fetchCandidate, clearCandidate } = useCandidateData();
+    const { t } = useTranslation();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await fetchCandidate(email);
     };
 
-    // Si ya hay un candidato autenticado, mostrar sus datos
     if (candidate) {
         return (
-            <Card className="border-green-200 bg-green-50/50">
+            <Card className="border-green-200 bg-green-50/50 dark:border-green-800 dark:bg-green-950/30">
                 <CardHeader>
                     <div className="flex items-center gap-2">
-                        <CheckCircle2 className="h-5 w-5 text-green-600" />
-                        <CardTitle className="text-green-900">Datos del Candidato</CardTitle>
+                        <CheckCircle2 className="h-5 w-5 text-green-600 dark:text-green-400" />
+                        <CardTitle className="text-green-900 dark:text-green-100">{t('candidate.foundTitle')}</CardTitle>
                     </div>
-                    <CardDescription>
-                        Candidato identificado correctamente
+                    <CardDescription className="dark:text-green-300">
+                        {t('candidate.foundDescription')}
                     </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
                     <div>
-                        <span className="font-semibold">Nombre:</span> {candidate.firstName} {candidate.lastName}
+                        <span className="font-semibold">{t('candidate.name')}:</span> {candidate.firstName} {candidate.lastName}
                     </div>
                     <div>
-                        <span className="font-semibold">Email:</span> {candidate.email}
+                        <span className="font-semibold">{t('candidate.email')}:</span> {candidate.email}
                     </div>
                     <div>
-                        <span className="font-semibold">ID:</span> {candidate.candidateId}
+                        <span className="font-semibold">{t('candidate.id')}:</span> {candidate.candidateId}
                     </div>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={clearCandidate}
-                        className="mt-4"
-                    >
-                        Cambiar candidato
-                    </Button>
+                    <Tooltip>
+                        <TooltipTrigger asChild>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={clearCandidate}
+                                className="mt-4"
+                            >
+                                {t('candidate.change')}
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {t('candidate.changeTooltip')}
+                        </TooltipContent>
+                    </Tooltip>
                 </CardContent>
             </Card>
         );
@@ -54,9 +63,9 @@ export function CandidateForm() {
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Identificación del Candidato</CardTitle>
+                <CardTitle>{t('candidate.title')}</CardTitle>
                 <CardDescription>
-                    Ingresa tu email para obtener tus datos y ver las posiciones disponibles
+                    {t('candidate.description')}
                 </CardDescription>
             </CardHeader>
             <CardContent>
@@ -66,7 +75,7 @@ export function CandidateForm() {
                             <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                             <Input
                                 type="email"
-                                placeholder="tu.email@ejemplo.com"
+                                placeholder={t('candidate.placeholder')}
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 disabled={loading}
@@ -86,10 +95,10 @@ export function CandidateForm() {
                         {loading ? (
                             <>
                                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                Verificando...
+                                {t('candidate.loading')}
                             </>
                         ) : (
-                            'Buscar mis datos'
+                            t('candidate.submit')
                         )}
                     </Button>
                 </form>
